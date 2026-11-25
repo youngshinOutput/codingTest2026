@@ -1,0 +1,68 @@
+function dfs(PreW,visited,start){
+
+  // 체크
+  visited[start] = true
+
+  // 속한곳 보기
+  // 재귀전진 포문으로
+  
+
+  for(let i of (PreW[start] || [])){
+    if(visited[i] === false){
+    dfs(PreW,visited,i)
+    }else{
+      continue;
+    }
+  }
+  // 갈곳없음 리턴
+  return
+  
+  
+}
+
+function makePreDfsW(arr){
+  const PreDfsW = {}
+  for(let [a,b] of arr){
+    PreDfsW[a] = PreDfsW[a] ? [...PreDfsW[a],b] : [b];
+    PreDfsW[b] = PreDfsW[b] ? [...PreDfsW[b],a] : [a];
+  }
+
+  return PreDfsW                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+}
+
+function solution(n, wires) {
+  
+  // 반복. wirescopy준비  count 실시 i번째 인덱스 제거
+  // 첫 선부터 dfs실시. 미카운트된 요소와의 차이 절대값 차이배열에 넣기
+  // sort 갈기고 최소 값 확인
+
+
+  const diffs = []
+
+  for(let i = 0; i < n; i++){
+    const wCopy = wires.filter((v,idx)=> idx!=i)
+    const visited = Array(n+1).fill(false)
+    visited[wCopy[0][0]] = true
+    // wCopy 전차리
+    const PreW = makePreDfsW(wCopy)
+    // console.log(PreW)
+     dfs(PreW,visited,1)
+   
+    
+    const count1 = visited.filter((v)=>v===true).length
+
+    
+    const count2 = n-count1
+
+    const diff = Math.abs(count1-count2)
+    diffs.push(diff)
+  }
+
+  diffs.sort((a,b)=> a-b)
+
+  return(diffs[0])
+  // 유의점 
+  // 1. dfs돌릴떄 연결노드 없을경우 예외처리(PreW[start] || [])
+  // - dfs때 양방향 연결 필요 둘다 
+  // - dfs때 전처리 필요 
+}

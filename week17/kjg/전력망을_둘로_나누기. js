@@ -39,10 +39,9 @@ function solution(n, wires) {
 
   const diffs = []
 
-  for(let i = 0; i < n; i++){
+  for(let i = 0; i < wires.length; i++){
     const wCopy = wires.filter((v,idx)=> idx!=i)
     const visited = Array(n+1).fill(false)
-    visited[wCopy[0][0]] = true
     // wCopy 전차리
     const PreW = makePreDfsW(wCopy)
     // console.log(PreW)
@@ -66,3 +65,4 @@ function solution(n, wires) {
   // - dfs때 양방향 연결 필요 둘다 
   // - dfs때 전처리 필요 
 }
+
